@@ -1,0 +1,109 @@
+#include<bits/stdc++.h>
+using namespace std;
+//stack using array
+struct Stack
+{
+    int size;
+    int top;
+    int *s;
+};
+void create(struct Stack *st)
+{
+    cout<<" Enter the size "<<endl;
+    cin>>st->size;
+    st->top=-1;
+    st->s=new int[st->size];
+}
+int isempty(Stack st)
+{
+    if(st.top==-1)
+    {
+        cout<<" stack is empty "<<endl;
+        return 1;
+    }   
+    else
+        return 0;
+}
+int isfull(Stack st)
+{
+    if(st.top==st.size-1)
+    {
+        cout<<" stack is full "<<endl;
+        return 1;
+    }   
+    else
+        return 0;
+}
+void push(Stack *st,int x)
+{
+    if(st->top==st->size-1)
+        cout<<" stack overflow "<<endl;
+    else
+    {
+        st->top++;
+        st->s[st->top] = x;
+    }
+}
+int pop(Stack *st)
+{
+    int x = -1;
+    if(st->top==-1)
+    {
+        cout<<" Underflow "<<endl;
+    }
+    else
+    {
+        x=st->s[st->top];
+        st->top--;
+    }
+    return x;
+}
+int peek(Stack st,int pos)
+{
+    int x=-1;
+    if(st.top-pos+1<0)
+        cout<<" Invalid position "<<endl;
+    else
+        x=st.s[st.top-pos+1];
+    return x;
+}
+int stack_top(Stack st)
+{
+    if(st.top==-1)
+    {
+        cout<<" is empty ";
+        return -1;
+    }    
+    else
+        return st.s[st.top];
+
+}
+void display(Stack st)
+{
+    if(st.top==-1)
+        cout<<" is empty ";
+    else
+    {
+        while (st.top!=-1)
+        {
+            cout<<st.s[st.top]<<endl;
+            st.top--;
+        }
+    }    
+         
+}
+int main()
+{   
+    struct Stack st; 
+    create(&st);
+    push(&st,1);
+    push(&st,2);
+    push(&st,3);
+    push(&st,4);
+    push(&st,5);
+    display(st);
+    pop(&st);
+    display(st);
+    printf("%d \n",peek(st,2));
+    return 0 ;
+}
