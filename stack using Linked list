@@ -1,0 +1,109 @@
+#include<bits/stdc++.h>
+using namespace std;
+//stack using Linked list
+struct node
+{
+    int data;
+    node *next;
+}*top = NULL;
+int isempty()
+{
+    return top?0:1; 
+}
+int isfull()
+{
+    node *t  = new node;
+    int r=t?0:1;
+    delete t;
+    return r;
+}
+int stack_top()
+{
+    if(top)
+        return top->data;
+    return -1;
+}
+int count()
+{
+    node *p;
+    p=top;
+    int len;
+    while (p)
+    {
+        len++;
+    }
+    return len;
+}
+void push(int x)
+{
+    node *t = new node;
+    if(t==NULL)
+        cout<<" Stack Overflow "<<endl;
+    else
+    {
+        t->next = top;
+        t->data = x;
+        top = t;
+    }
+}
+int pop()
+{
+    int x = -1;
+    node *p;
+    if(top == NULL)
+        cout<<" Stack is empty "<<endl;
+    else
+    {
+        p = top;
+        top = top->next;
+        x=p->data;
+        delete p;
+    }
+    return x;
+}
+int peek(int pos)
+{
+    node *p;
+    if(top==NULL)
+        cout<<" Stack is empty "<<endl;
+    else
+    {
+        if(pos>0)
+        {
+            p=top;
+        for (int i = 0;p!=NULL && i < pos -1; i++)
+        {
+            p=p->next;
+        }
+        if(p)
+            return p->data;
+        else
+            return -1;
+        }
+        else
+            return -1;
+    }
+}
+void Display()
+{
+    node *p;
+    p=top;
+    while(p)
+    {
+        cout<<p->data<<endl;
+        p=p->next;
+    }
+
+}
+int main()
+{   
+    push(10);
+    push(20);
+    push(30);
+    Display();
+    // cout<<pop()<<endl;
+    cout<<stack_top()<<endl;
+    cout<<isempty()<<isfull()<<endl;
+    cout<<peek(5)<<endl;
+    return 0;
+}
