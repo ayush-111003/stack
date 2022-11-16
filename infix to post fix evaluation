@@ -1,0 +1,169 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    node *next;
+}*top = NULL;
+int isempty()
+{
+    return top?0:1; 
+}
+int isfull()
+{
+    node *t  = new node;
+    int r=t?0:1;
+    delete t;
+    return r;
+}
+int stack_top()
+{
+    if(top)
+        return top->data;
+    return -1;
+}
+int count()
+{
+    node *p;
+    p=top;
+    int len;
+    while (p)
+    {
+        len++;
+    }
+    return len;
+}
+void push(int x)
+{
+    node *t = new node;
+    if(t==NULL)
+        cout<<" Stack Overflow "<<endl;
+    else
+    {
+        t->next = top;
+        t->data = x;
+        top = t;
+    }
+}
+int pop()
+{
+    int x = -1;
+    node *p;
+    if(top == NULL)
+        cout<<" Stack is empty "<<endl;
+    else
+    {
+        p = top;
+        top = top->next;
+        x=p->data;
+        delete p;
+    }
+    return x;
+}
+int peek(int pos)
+{
+    node *p;
+    if(top==NULL)
+        cout<<" Stack is empty "<<endl;
+    else
+    {
+        if(pos>0)
+        {
+            p=top;
+        for (int i = 0;p!=NULL && i < pos -1; i++)
+        {
+            p=p->next;
+        }
+        if(p)
+            return p->data;
+        else
+            return -1;
+        }
+        else
+            return -1;
+    }
+}
+void Display()
+{
+    node *p;
+    p=top;
+    while(p)
+    {
+        cout<<p->data<<endl;
+        p=p->next;
+    }
+
+}
+int isOperand(char x)
+{
+    if(x=='+'||x=='-'||x=='*'||x=='/')
+        return 0;
+    else
+        return 1;
+}
+int pre(char x)
+{
+    if(x=='+'||x=='-')return 1;
+    else if(x=='*'||x=='/')return 2;
+    else return 0;
+}
+char *convert(char *infix)
+{
+    int len = strlen(infix);
+    char *postfix = new char[len+2];
+    int i = 0,j=0;
+    while (infix[i]!='\0')
+    {
+        if(isOperand(infix[i]))
+            postfix[j++] = infix[i++];
+        else
+        {
+            if(pre(infix[i])>pre(stack_top()))
+                push(infix[i++]);
+            else
+            {
+                postfix[j++]=pop();
+            }
+        }
+    }
+    while (!isempty())
+    {
+        postfix[j++]=pop();
+    }
+    postfix[j]='\0';
+    return postfix;
+}
+int eval(char *postfix)
+{
+    int i ,x1,x2,r;
+    for ( i = 0; postfix[i] !='\0'; i++)
+    {
+        if(isOperand(postfix[i]))
+            push(postfix[i] -'0');
+        else
+        {
+            x2=pop();
+            x1=pop();
+            switch (postfix[i])
+            {
+            case '+':r=x1+x2;
+                break;
+            case '-':r=x1-x2;
+                break;
+            case '*':r=x1*x2;
+                break;
+            case '/':r=x1/x2;
+                break;
+            }
+            push(r);
+        }
+    }
+    return top->data;  
+}
+int main()
+{   char *postfix = "234*+82/-";
+    // push('#');
+    cout<<eval(postfix);
+   return 0 ;
+}
