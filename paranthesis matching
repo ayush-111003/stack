@@ -1,0 +1,69 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    char data;
+    node *next;
+}*top = NULL;
+int isempty()
+{
+    return top?0:1; 
+}
+
+void push(char x)
+{
+    node *t = new node;
+    if(t==NULL)
+        cout<<" Stack Overflow "<<endl;
+    else
+    {
+        t->next = top;
+        t->data = x;
+        top = t;
+    }
+}
+char pop()
+{
+    char x = -1;
+    node *p;
+    if(top == NULL)
+        cout<<" Stack is empty "<<endl;
+    else
+    {
+        p = top;
+        top = top->next;
+        x=p->data;
+        delete p;
+    }
+    return x;
+}
+
+int isBalanced(char *exp)
+{
+    // struct stack st;
+    // st.size=strlen(exp);
+    // st.top=-1;
+    // st.s=new char[st.size];
+
+    for (int i = 0; exp[i]!='\0'; i++)
+    {
+        if(exp[i]=='(')push(exp[i]);
+        else{
+            if(exp[i]==')')
+            {
+                if(isempty())return false;//stack is empty means there are some extra ')'
+                pop();
+            }
+        }
+    }
+    return isempty()?true:false;//means there are some extra '('
+}
+
+int main()
+{   char *exp = "((a+b)*(c-d))";
+    // push('#');
+    // cout<<eval(postfix);
+    cout<<isBalanced(exp);
+   return 0 ;
+}
